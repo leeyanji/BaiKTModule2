@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: header">
+    <meta charset="UTF-8">
+</head>
+<body class="container">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a th:href="@{/add}" class="btn btn-info">Thêm mới nhân viên</a>
+        <form class="form-inline pull-right">
+            <input class="form-control" type="text" name="search" placeholder="Tìm theo tên">
+            <button type="submit" class="btn btn-primary">Tìm</button>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Mã nhân viên</th>
+                    <th>Nhóm nhân viên</th>
+                    <th>Họ tên</th>
+                    <th>Giới tính</th>
+                    <th>Số điện thoại</th>
+                    <th>Chức năng</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee :${employees}">
+                    <td th:text="${employee.id}"></td>
+                    <td th:text="${employee.department.name}"></td>
+                    <td th:text="${employee.name}"></td>
+                    <td th:text="${employee.gender}"></td>
+                    <td th:text="${employee.phonenumber}"></td>
+                    <td>
+                        <a th:href="@{/edit/__${employee.id}__}" class="btn btn-success">Sửa</a>
+                        <a th:href="@{/delete/__${employee.id}__}" class="btn btn-danger"
+                           onclick="return confirm('Bạn chắn chắn muốn xoá không?')">Xoá</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul class="pager">
+            <li><a th:href="@{'/'(page=${employees.number - 1})}" th:if="${employees.hasPrevious()}">Previous</a></li>
+            <li><span th:text="${employees.number + 1}"></span></li>
+            <li><a th:href="@{'/'(page=${employees.number + 1})}" th:if="${employees.hasNext()}">Next</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+<footer th:replace="layout :: footer"></footer>
+</html>
